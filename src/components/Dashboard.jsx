@@ -49,16 +49,6 @@ const Dashboard = () => {
     localStorage.removeItem('dashboard_chatMessages');
   }, []);
 
-  const handleAnalysisResult = (data) => {
-    if (data && data.success) {
-      setAnalysisData({
-        index_name: data.index_name,
-        summary: data.summary
-      });
-      setChatHistories({ chat: [], viz: [], excel: [] }); 
-    }
-  };
-
   const handleNewAnalysis = () => {
       setUrls([""]);
       setAnalysisData(null);

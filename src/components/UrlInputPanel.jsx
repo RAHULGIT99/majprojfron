@@ -1,5 +1,5 @@
 // components/UrlInputPanel.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Plus, Minus, Search, Trash2 } from 'lucide-react'; 
 import ConfirmationModal from './ConfirmationModal';
