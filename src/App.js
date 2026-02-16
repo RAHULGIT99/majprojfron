@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import ErrorBoundary from './components/ErrorBoundary';
 import { ToastProvider } from './contexts/ToastContext';
 import LoadingSpinner from './components/LoadingSpinner';
-import { getToken, getUser, setToken, setUser, removeAuthData, isAuthenticated as checkAuth } from './utils/auth';
+import { getUser, setToken, setUser, removeAuthData, isAuthenticated as checkAuth } from './utils/auth';
 import logger from './utils/logger';
 import './App.css';
 
