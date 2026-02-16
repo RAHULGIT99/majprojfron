@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AlertCircle, ShieldCheck } from 'lucide-react';
 import './Auth.css';
 
 const VerifyOtp = ({ onLoginSuccess }) => {
@@ -31,7 +32,7 @@ const VerifyOtp = ({ onLoginSuccess }) => {
 
     try {
       // Step 2: Verify with Email, OTP, AND Password (which we carried over)
-      const response = await axios.post('http://localhost:8000/verify-otp', {
+      const response = await axios.post('https://majprojback-hdj8.onrender.com/verify-otp', {
         email,
         otp,
         password
@@ -58,6 +59,7 @@ const VerifyOtp = ({ onLoginSuccess }) => {
         <div className="auth-container">
             <div className="auth-box">
                 <div className="error-message">
+                    <AlertCircle size={16} />
                     Missing registration details. Please <a href="/signup">Sign Up</a> again.
                 </div>
             </div>
@@ -68,30 +70,47 @@ const VerifyOtp = ({ onLoginSuccess }) => {
   return (
     <div className="auth-container">
       <div className="auth-box">
+        <div style={{ textAlign: 'center', marginBottom: 'var(--space-4)' }}>
+          <ShieldCheck size={40} style={{ color: 'var(--color-primary-500)', marginBottom: '8px' }} />
+        </div>
         <h2 className="auth-title">Verify OTP</h2>
+        <p className="auth-subtitle">Almost there! Verify your email to continue</p>
         
-        {error && <div className="error-message">{error}</div>}
+        {error && (
+          <div className="error-message">
+            <AlertCircle size={16} />
+            {error}
+          </div>
+        )}
         
         <form onSubmit={handleVerify} className="auth-form">
             <div className="form-group">
-                <p style={{fontSize: '0.9rem', color: '#666', marginBottom: '1rem'}}>
-                    We've sent an OTP to <strong>{email}</strong>
+                <p className="otp-info-text">
+                    We've sent a verification code to <strong>{email}</strong>
                 </p>
             </div>
             <div className="form-group">
-                <label htmlFor="otp">Enter OTP</label>
+                <label htmlFor="otp">Verification Code</label>
                 <input
                 type="text"
                 id="otp"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                placeholder="Enter the 6-digit OTP"
+                placeholder="Enter the 6-digit code"
                 required
+                style={{ letterSpacing: '0.15em', textAlign: 'center', fontSize: 'var(--text-xl)' }}
                 />
             </div>
             
             <button type="submit" className="auth-button" disabled={isSubmitting}>
-                {isSubmitting ? 'Verifying...' : 'Complete Registration'}
+                {isSubmitting ? (
+                  <>
+                    <span className="btn-spinner" />
+                    Verifying...
+                  </>
+                ) : (
+                  'Complete Registration'
+                )}
             </button>
         </form>
       </div>

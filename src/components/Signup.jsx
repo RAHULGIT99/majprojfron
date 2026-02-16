@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { Eye, EyeOff, AlertCircle } from 'lucide-react';
 import './Auth.css';
 
 const Signup = () => {
@@ -9,6 +10,8 @@ const Signup = () => {
   // Password included in Register page as requested
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,7 +32,7 @@ const Signup = () => {
       // Step 1: Register with Username and Email. 
       // Password is COLLECTED here but sent to backend in Step 2 (Verify) via state transfer,
       // because the backend endpoint for /register only takes { username, email }.
-      await axios.post('http://localhost:8000/register', {
+      await axios.post('https://majprojback-hdj8.onrender.com/register', {
         username,
         email
       });
@@ -54,8 +57,14 @@ const Signup = () => {
     <div className="auth-container">
       <div className="auth-box">
         <h2 className="auth-title">Create Account</h2>
+        <p className="auth-subtitle">Start analyzing equities in minutes</p>
         
-        {error && <div className="error-message">{error}</div>}
+        {error && (
+          <div className="error-message">
+            <AlertCircle size={16} />
+            {error}
+          </div>
+        )}
         
         <form onSubmit={handleRegister} className="auth-form">
           <div className="form-group">
@@ -84,35 +93,62 @@ const Signup = () => {
 
           <div className="form-group">
             <label htmlFor="password">Create Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Create a strong password"
-              required
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Create a strong password"
+                required
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirm your password"
-              required
-            />
+            <div className="password-wrapper">
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm your password"
+                required
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+              >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
           
           <button type="submit" className="auth-button" disabled={isSubmitting}>
-            {isSubmitting ? 'Next' : 'Next'}
+            {isSubmitting ? (
+              <>
+                <span className="btn-spinner" />
+                Processing...
+              </>
+            ) : (
+              'Continue'
+            )}
           </button>
         </form>
         
         <div className="auth-link">
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account? <Link to="/login">Sign in</Link>
         </div>
       </div>
     </div>

@@ -43,7 +43,7 @@ const UrlInputPanel = ({ urls, setUrls, isLoading, setIsLoading, setAnalysisData
         config.headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await axios.post('http://localhost:8000/analyze', {
+      const response = await axios.post('https://majprojback-hdj8.onrender.com/analyze', {
         urls: validUrls
       }, config);
 
@@ -72,10 +72,13 @@ const UrlInputPanel = ({ urls, setUrls, isLoading, setIsLoading, setAnalysisData
 
   return (
     <div className="input-panel-container">
-      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem'}}>
-          <h2 className="panel-title" style={{margin: 0}}>Source URLs</h2>
+      <div className="panel-header">
+          <div>
+            <h2 className="panel-title">Source URLs</h2>
+            <p className="panel-subtitle">Add article or report URLs to analyze</p>
+          </div>
           <button onClick={requestNewAnalysis} className="new-analysis-btn" title="Start New Analysis">
-              <Trash2 size={16} style={{marginRight: '4px'}}/> New
+              <Trash2 size={14} /> Clear
           </button>
       </div>
       
@@ -85,7 +88,7 @@ const UrlInputPanel = ({ urls, setUrls, isLoading, setIsLoading, setAnalysisData
             <span className="index-number">{index + 1}</span>
             <input
               type="text"
-              placeholder="https://example.com"
+              placeholder="https://example.com/article"
               value={url}
               onChange={(e) => handleChange(index, e.target.value)}
               className="url-input"
@@ -120,11 +123,14 @@ const UrlInputPanel = ({ urls, setUrls, isLoading, setIsLoading, setAnalysisData
           className={`analyze-btn ${isLoading ? 'disabled' : 'active'}`}
         >
           {isLoading ? (
-            <span>Processing...</span>
+            <>
+              <span className="btn-spinner" />
+              <span>Analyzing...</span>
+            </>
           ) : (
             <>
               <Search size={18} />
-              <span>Analyze</span>
+              <span>Analyze URLs</span>
             </>
           )}
         </button>

@@ -59,11 +59,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="app-container" style={{display: 'flex', height: 'calc(100vh - 60px)'}}> 
-      {/* 60px is approx navbar height */}
-      
-      {/* LHS: Control Panel (30%) */}
-      <div className="control-panel" style={{ width: '30%', borderRight: '1px solid #ddd', padding: '1rem', overflow: 'hidden' }}>
+    <div className="app-container"> 
+      {/* LHS: Control Panel */}
+      <div className="control-panel">
         <UrlInputPanel 
           urls={urls} 
           setUrls={setUrls} 
@@ -77,8 +75,8 @@ const Dashboard = () => {
         />
       </div>
 
-      {/* RHS: Workspace (70%) */}
-      <div className="workspace" style={{ width: '70%', padding: '1rem', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      {/* RHS: Workspace */}
+      <div className="workspace">
         <ResultsPanel 
           isLoading={isLoading} 
           data={analysisData}
